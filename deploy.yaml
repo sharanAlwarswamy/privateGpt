@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openwebui-deployment
+  name: ollama-openwebui-deployment
   labels:
-    app: openwebui
+    app: ollama-openwebui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openwebui
+      app: ollama-openwebui
   template:
     metadata:
       labels:
-        app: openwebui
+        app: ollama-openwebui
     spec:
       containers:
         - name: open-webui
@@ -22,30 +22,10 @@ spec:
           env:
             - name: "HOST_DOCKER_INTERNAL"
               value: "host.docker.internal:host-gateway"
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ollama-deployment
-  labels:
-    app: ollama
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: ollama
-  template:
-    metadata:
-      labels:
-        app: ollama
-    spec:
-      containers:
         - name: ollama
           image: ollama/ollama
           ports:
             - containerPort: 11434
-          command: ["ollama", "run", "deepseek-r1:1.5b"]
 
 ---
 apiVersion: v1
@@ -54,7 +34,7 @@ metadata:
   name: open-webui-service
 spec:
   selector:
-    app: openwebui
+    app: ollama-openwebui
   ports:
     - protocol: TCP
       port: 80
@@ -68,7 +48,7 @@ metadata:
   name: ollama-service
 spec:
   selector:
-    app: ollama
+    app: ollama-openwebui
   ports:
     - protocol: TCP
       port: 11434
