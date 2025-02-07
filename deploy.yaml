@@ -23,7 +23,7 @@ spec:
             - name: "HOST_DOCKER_INTERNAL"
               value: "host.docker.internal:host-gateway"
         - name: ollama
-          image: ollama/ollama
+          image: sharanalwar/deepseekr1:v1
           ports:
             - containerPort: 11434
 
